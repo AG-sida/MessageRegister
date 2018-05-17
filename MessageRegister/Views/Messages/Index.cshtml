@@ -1,14 +1,17 @@
 ﻿@model IEnumerable<MessageRegister.Models.Message>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "SMS List History";
 }
 
-<h2>Index</h2>
+<h2>SMS List History</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Send SMS", "Create")
 </p>
+
+
+
 <table class="table">
     <tr>
         <th>
@@ -28,11 +31,11 @@
         <td>
             @Html.DisplayFor(modelItem => item.MessageUser)
         </td>
-        <td>
+        @*<td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Details", "Details", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
+        </td>*@
     </tr>
 }
 
