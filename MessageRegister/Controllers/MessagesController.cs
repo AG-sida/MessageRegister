@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
@@ -16,19 +17,19 @@ namespace MessageRegister.Controllers
         private MessageContext db = new MessageContext();
 
         // GET: Messages
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View(db.Messages.ToList());
+            return View(await db.Messages.ToListAsync());
         }
 
         // GET: Messages/Details/5
-        public ActionResult Details(int? id)
+        public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Message message = db.Messages.Find(id);
+            Message message = await db.Messages.FindAsync(id);
             if (message == null)
             {
                 return HttpNotFound();
@@ -47,12 +48,12 @@ namespace MessageRegister.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,MesaggeTime,MessageUser")] Message message)
+        public async Task<ActionResult> Create([Bind(Include = "Id,MesaggeTime,MessageUser")] Message message)
         {
             if (ModelState.IsValid)
             {
                 db.Messages.Add(message);
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -60,13 +61,13 @@ namespace MessageRegister.Controllers
         }
 
         // GET: Messages/Edit/5
-        public ActionResult Edit(int? id)
+        public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Message message = db.Messages.Find(id);
+            Message message = await db.Messages.FindAsync(id);
             if (message == null)
             {
                 return HttpNotFound();
@@ -79,25 +80,25 @@ namespace MessageRegister.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,MesaggeTime,MessageUser")] Message message)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,MesaggeTime,MessageUser")] Message message)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(message).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(message);
         }
 
         // GET: Messages/Delete/5
-        public ActionResult Delete(int? id)
+        public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Message message = db.Messages.Find(id);
+            Message message = await db.Messages.FindAsync(id);
             if (message == null)
             {
                 return HttpNotFound();
@@ -108,11 +109,11 @@ namespace MessageRegister.Controllers
         // POST: Messages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Message message = db.Messages.Find(id);
+            Message message = await db.Messages.FindAsync(id);
             db.Messages.Remove(message);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
